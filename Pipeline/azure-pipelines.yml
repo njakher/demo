@@ -27,14 +27,13 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
-- task: AzureWebApp@1
+- task: AzureRmWebAppDeployment@4
   inputs:
+    ConnectionType: 'AzureRM'
     azureSubscription: 'Visual Studio Enterprise(8e062dd0-6bce-422f-ac9f-c98e4c5e565c)'
     appType: 'webApp'
-    appName: 'mydemo-devops'
+    WebAppName: 'mydemo-devops'
     deployToSlotOrASE: true
-    resourceGroupName: 'DevOpsDemo'
-    slotName: 'staging'
-    package: '$(build.artifactStagingDirectory)/**/*.zip'
-    deploymentMethod: 'auto'
+    ResourceGroupName: 'DevOpsDemo'
+    SlotName: 'Staging'
+    packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
