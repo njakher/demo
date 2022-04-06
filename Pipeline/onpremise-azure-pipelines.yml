@@ -37,10 +37,10 @@ stages:
         
         - task: ArchiveFiles@2
           inputs:
-              rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/${{parameters.packageName}}'
+              rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
               includeRootFolder: true
               archiveType: 'zip'
-              archiveFile: '$(Build.ArtifactStagingDirectory)/package/${{parameters.packageName}}.zip'
+              archiveFile: '$(Build.ArtifactStagingDirectory)/*.zip'
               replaceExistingArchive: true
 
  - stage: Deploy
@@ -55,11 +55,37 @@ stages:
         runOnce:
           deploy:
             steps:
-              - task: AzureAppServiceManage@0
-                inputs:
-                  azureSubscription: 'Visual Studio Enterprise(8e062dd0-6bce-422f-ac9f-c98e4c5e565c)'
-                  Action: 'Swap Slots'
-                  WebAppName: 'mydemo-devops'
-                  ResourceGroupName: 'DevOpsDemo'
-                  SourceSlot: 'Staging'
+            - task: IISWebAppManagementOnMachineGroup@0
+              displayName: 'Create or Update Website' 
+              inputs:
+                IISDeploymentType: 'IISWebsite'
+                ActionIISWebsite: 'CreateOrUpdateWebsite'
+                WebsiteName: MyApp 
+                WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot\MyApp'
+                WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                CreateOrUpdateAppPoolForWebsite: true
+                AppPoolNameForWebsite: 'demopool'
+                AddBinding: true
+                Bindings: |
+                                {
+                                    bindings:[
+                                        {
+                                            "protocol":"http",
+                                            "ipAddress":"*",
+                                            "hostname":"",
+                                            "port":"80",
+                                            "sslThumbprint":"",
+                                            "sniFlag":false
+                                        }
+                                    ]
+                                }  
+
+            - task: IISWebAppDeploymentOnMachineGroup@0
+              displayName: 'IIS Deployment'
+              inputs:
+                WebSiteName: MyApp
+                Package: '$(Pipeline.Workspace)/*.zip' 
+                RemoveAdditionalFilesFlag: true
+                TakeAppOfflineFlag: true
+
    
