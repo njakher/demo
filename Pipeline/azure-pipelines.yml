@@ -7,7 +7,7 @@ trigger:
 - main
 
 variables:
-  solution: '**/*.sln'
+  solution: '**/DevOps.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
