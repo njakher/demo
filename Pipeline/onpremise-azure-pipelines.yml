@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 trigger:
-- main
+- none
 
 pool:
   vmImage: 'windows-latest'
@@ -14,17 +14,44 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
+ - stage: build
+   displayName: 'Build Solution'
+   jobs:
+   - job: 'Build'
+     pool:
+      vmImage: 'windows-latest'
+     steps:
+        - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+        - task: NuGetCommand@2
+          inputs:
+            restoreSolution: '$(solution)'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+        - task: VSBuild@1
+          inputs:
+            solution: '$(solution)'
+            msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+            platform: '$(buildPlatform)'
+            configuration: '$(buildConfiguration)'
 
+ - stage: Deploy
+   displayName: 'Deploy On premise'
+   jobs:
+    - deployment: DeployWeb
+      displayName: deploy Web App
+      pool:
+        vmImage: 'windows-latest'
+      environment: 'dev'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: AzureAppServiceManage@0
+                inputs:
+                  azureSubscription: 'Visual Studio Enterprise(8e062dd0-6bce-422f-ac9f-c98e4c5e565c)'
+                  Action: 'Swap Slots'
+                  WebAppName: 'mydemo-devops'
+                  ResourceGroupName: 'DevOpsDemo'
+                  SourceSlot: 'Staging'
+   
