@@ -46,14 +46,20 @@ stages:
  - stage: Swap
    displayName: 'Swap slots'
    jobs:
-   - job: 'swap'
-     pool:
-       vmImage: 'windows-latest'
-     steps:
-       - task: AzureAppServiceManage@0
-         inputs:
-           azureSubscription: 'Visual Studio Enterprise(8e062dd0-6bce-422f-ac9f-c98e4c5e565c)'
-           Action: 'Swap Slots'
-           WebAppName: 'mydemo-devops'
-           ResourceGroupName: 'DevOpsDemo'
-           SourceSlot: 'Staging'
+    - deployment: DeployWeb
+      displayName: deploy Web App
+      pool:
+        vmImage: 'windows-latest'
+      environment: 'prod'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: AzureAppServiceManage@0
+                inputs:
+                  azureSubscription: 'Visual Studio Enterprise(8e062dd0-6bce-422f-ac9f-c98e4c5e565c)'
+                  Action: 'Swap Slots'
+                  WebAppName: 'mydemo-devops'
+                  ResourceGroupName: 'DevOpsDemo'
+                  SourceSlot: 'Staging'
+   
