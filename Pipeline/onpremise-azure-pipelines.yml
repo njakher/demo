@@ -31,18 +31,10 @@ stages:
         - task: VSBuild@1
           inputs:
             solution: '$(solution)'
-            msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+            msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
             platform: '$(buildPlatform)'
             configuration: '$(buildConfiguration)'
-        
-        - task: ArchiveFiles@2
-          inputs:
-              rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
-              includeRootFolder: true
-              archiveType: 'zip'
-              archiveFile: '$(Build.ArtifactStagingDirectory)/*.zip'
-              replaceExistingArchive: true
-
+      
  - stage: Deploy
    displayName: 'Deploy On premise'
    jobs:
@@ -84,7 +76,7 @@ stages:
               displayName: 'IIS Deployment'
               inputs:
                 WebSiteName: MyApp
-                Package: '$(Pipeline.Workspace)/*.zip' 
+                Package: '$(Pipeline.Workspace)/WebApp.zip' 
                 RemoveAdditionalFilesFlag: true
                 TakeAppOfflineFlag: true
 
