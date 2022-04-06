@@ -35,6 +35,6 @@ steps:
     appName: 'mydemo-devops'
     deployToSlotOrASE: true
     resourceGroupName: 'DevOpsDemo'
-    slotName: 'production'
+    slotName: 'staging'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
