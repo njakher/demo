@@ -37,3 +37,11 @@ steps:
     ResourceGroupName: 'DevOpsDemo'
     SlotName: 'Staging'
     packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
+  
+- task: AzureAppServiceManage@0
+  inputs:
+    azureSubscription: 'Visual Studio Enterprise(8e062dd0-6bce-422f-ac9f-c98e4c5e565c)'
+    Action: 'Swap Slots'
+    WebAppName: 'mydemo-devops'
+    ResourceGroupName: 'DevOpsDemo'
+    SourceSlot: 'Staging'
