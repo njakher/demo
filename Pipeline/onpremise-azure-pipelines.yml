@@ -80,7 +80,7 @@ stages:
               displayName: 'IIS Deployment'
               inputs:
                 WebSiteName: MyApp
-                Package: '$(Pipeline.Workspace)/WebApp.zip' 
+                Package: '$(Pipeline.Workspace)/drop/WebApp.zip' 
                 RemoveAdditionalFilesFlag: true
                 TakeAppOfflineFlag: true
 
