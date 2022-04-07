@@ -55,9 +55,9 @@ stages:
    jobs:
     - deployment: DeployWeb
       displayName: deploy Web App
-      pool:
-        vmImage: 'windows-latest'
-      environment: 'infra'
+      environment: 
+        name: infra
+        resourceType: VirtualMachine
       strategy:
         runOnce:
           deploy:
