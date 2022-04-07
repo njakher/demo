@@ -63,7 +63,11 @@ stages:
           deploy:
             steps:
             - script: echo "Deploy Infra"
-            - task: CmdLine@2
+#            - task: CmdLine@2
+#              inputs:
+#                script: 'activemq start'
+#                workingDirectory: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin'
+            - task: BatchScript@1
               inputs:
-                script: 'activemq start'
-                workingDirectory: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin'
+                filename: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin\win64\InstallService.bat'
+                failOnStandardError: true
