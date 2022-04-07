@@ -53,6 +53,7 @@ stages:
         - task: PublishPipelineArtifact@1
           inputs:
             targetPath: '$(Build.SourcesDirectory)/Installer/apache-activemq-5.15.10-bin.zip'
+            artifact: 'drop'
             publishLocation: 'pipeline'
 
  - stage: Dev
@@ -79,7 +80,7 @@ stages:
 
             - task: ExtractFiles@1
               inputs:
-                archiveFilePatterns: '$(Pipeline.Workspace)/*.zip'
+                archiveFilePatterns: '$(Pipeline.Workspace)/drop/*.zip'
                 destinationFolder: 'C:\Installation\ActiveMQ'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
