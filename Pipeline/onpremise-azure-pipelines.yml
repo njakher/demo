@@ -52,7 +52,7 @@ stages:
 
         - task: PublishPipelineArtifact@1
           inputs:
-            targetPath: '$(Pipeline.Workspace)/Installer/apache-activemq-5.15.10-bin.zip'
+            targetPath: '$(Pipeline.Workspace)/source/Installer/apache-activemq-5.15.10-bin.zip'
             publishLocation: 'pipeline'
 
  - stage: Dev
