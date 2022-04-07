@@ -67,7 +67,14 @@ stages:
 #              inputs:
 #                script: 'activemq start'
 #                workingDirectory: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin'
-            - task: BatchScript@1
+#            - task: BatchScript@1
+#              inputs:
+#                filename: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin\win64\InstallService.bat'
+#                failOnStandardError: true
+            - task: CmdLine@2
               inputs:
-                filename: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin\win64\InstallService.bat'
-                failOnStandardError: true
+                script: |
+                  InstallService.bat
+                  net start ActiveMQ
+                workingDirectory: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin\win64'
+                failOnStderr: true
