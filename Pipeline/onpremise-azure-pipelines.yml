@@ -3,6 +3,17 @@
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
+parameters:
+- name: env
+  displayName: Enviornments
+  type: string
+  default: PTE1
+  values:
+  - PTE1
+  - PTE2
+  - PPE
+  - PROD
+
 trigger:
 - none
 
