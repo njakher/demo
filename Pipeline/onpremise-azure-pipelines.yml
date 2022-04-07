@@ -57,7 +57,7 @@ stages:
       displayName: deploy Web App
       pool:
         vmImage: 'windows-latest'
-      environment: 'dev'
+      environment: 'infra'
       strategy:
         runOnce:
           deploy:
