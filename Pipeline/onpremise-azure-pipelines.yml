@@ -52,7 +52,7 @@ stages:
             
  - stage: Dev
    displayName: 'Deploy On premise'
-   condition: eq(${{parameters.env}}, PPE) 
+   condition: eq(${{parameters.env}}, 'PPE') 
    jobs:
     - deployment: DeployWeb
       displayName: deploy Web App
