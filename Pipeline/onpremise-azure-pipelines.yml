@@ -33,7 +33,7 @@ stages:
      pool:
       vmImage: 'windows-latest'
      steps:
-        - task: NuGetToolInstaller@1
+#        - task: NuGetToolInstaller@1
 
 #        - task: NuGetCommand@2
 #          inputs:
@@ -49,7 +49,12 @@ stages:
 #        - publish: '$(Build.ArtifactStagingDirectory)'
 #          displayName: 'Publish'
 #          artifact: drop   
-            
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)/Installer/apache-activemq-5.15.10-bin.zip'
+    publishLocation: 'pipeline'
+
  - stage: Dev
    displayName: 'Deploy On premise'
    jobs:
@@ -71,12 +76,20 @@ stages:
 #              inputs:
 #                filename: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin\win64\InstallService.bat'
 #                failOnStandardError: true
-            - task: BatchScript@1
+
+            - task: ExtractFiles@1
               inputs:
-                filename: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin\win64\InstallService.bat'
-                failOnStandardError: true
+                archiveFilePatterns: '$(Pipeline.Workspace)/*.zip'
+                destinationFolder: 'C:\Installation\ActiveMQ'
+                cleanDestinationFolder: true
+                overwriteExistingFiles: false
+
+#            - task: BatchScript@1
+#              inputs:
+#                filename: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin\win64\InstallService.bat'
+#                failOnStandardError: true
                 
-            - task: CmdLine@2
-              inputs:
-                script: 'net start ActiveMQ'
-                failOnStderr: true
+#            - task: CmdLine@2
+#              inputs:
+#                script: 'net start ActiveMQ'
+#                failOnStderr: true
