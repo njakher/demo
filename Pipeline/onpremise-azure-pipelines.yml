@@ -25,7 +25,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   mqInstallationPath: 'C:\Installation\ActiveMQ'
-  mqPackage: 'apache-activemq-5.15.10-bin'
+  mqPackage: 'apache-activemq-5.15.10'
 stages:
  - stage: build
    displayName: 'Build Solution'
@@ -53,7 +53,7 @@ stages:
 
         - task: PublishPipelineArtifact@1
           inputs:
-            targetPath: '$(Build.SourcesDirectory)/Installer/$(mqPackage).zip'
+            targetPath: '$(Build.SourcesDirectory)/Installer/apache-activemq-5.15.10-bin.zip'
             artifact: 'drop'
             publishLocation: 'pipeline'
 
