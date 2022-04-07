@@ -50,10 +50,10 @@ stages:
 #          displayName: 'Publish'
 #          artifact: drop   
 
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Pipeline.Workspace)/Installer/apache-activemq-5.15.10-bin.zip'
-    publishLocation: 'pipeline'
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(Pipeline.Workspace)/Installer/apache-activemq-5.15.10-bin.zip'
+            publishLocation: 'pipeline'
 
  - stage: Dev
    displayName: 'Deploy On premise'
