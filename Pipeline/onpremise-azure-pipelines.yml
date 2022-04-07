@@ -52,7 +52,6 @@ stages:
             
  - stage: Dev
    displayName: 'Deploy On premise'
-   condition: eq('${{parameters.env}}', 'PPE') 
    jobs:
     - deployment: DeployWeb
       displayName: deploy Web App
@@ -63,37 +62,4 @@ stages:
         runOnce:
           deploy:
             steps:
-            - task: IISWebAppManagementOnMachineGroup@0
-              displayName: 'Create or Update Website' 
-              inputs:
-                IISDeploymentType: 'IISWebsite'
-                ActionIISWebsite: 'CreateOrUpdateWebsite'
-                WebsiteName: MyApp 
-                WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot\MyApp'
-                WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
-                CreateOrUpdateAppPoolForWebsite: true
-                AppPoolNameForWebsite: 'demopool'
-                AddBinding: true
-                Bindings: |
-                                {
-                                    bindings:[
-                                        {
-                                            "protocol":"http",
-                                            "ipAddress":"*",
-                                            "hostname":"",
-                                            "port":"81",
-                                            "sslThumbprint":"",
-                                            "sniFlag":false
-                                        }
-                                    ]
-                                }  
-
-            - task: IISWebAppDeploymentOnMachineGroup@0
-              displayName: 'IIS Deployment'
-              inputs:
-                WebSiteName: MyApp
-                Package: '$(Pipeline.Workspace)/WebApp.zip' 
-                RemoveAdditionalFilesFlag: true
-                TakeAppOfflineFlag: true
-
-   
+            - script: echo "Deploy Infra"
