@@ -34,7 +34,11 @@ stages:
             msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
             platform: '$(buildPlatform)'
             configuration: '$(buildConfiguration)'
-      
+
+        - publish: '$(Build.ArtifactStagingDirectory)'
+          displayName: 'Publish'
+          artifact: drop   
+            
  - stage: Deploy
    displayName: 'Deploy On premise'
    jobs:
