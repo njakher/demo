@@ -35,20 +35,20 @@ stages:
      steps:
         - task: NuGetToolInstaller@1
 
-        - task: NuGetCommand@2
-          inputs:
-            restoreSolution: '$(solution)'
+#        - task: NuGetCommand@2
+#          inputs:
+#            restoreSolution: '$(solution)'
 
-        - task: VSBuild@1
-          inputs:
-            solution: '$(solution)'
-            msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
-            platform: '$(buildPlatform)'
-            configuration: '$(buildConfiguration)'
+#        - task: VSBuild@1
+#          inputs:
+#            solution: '$(solution)'
+#            msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
+#            platform: '$(buildPlatform)'
+#            configuration: '$(buildConfiguration)'
 
-        - publish: '$(Build.ArtifactStagingDirectory)'
-          displayName: 'Publish'
-          artifact: drop   
+#        - publish: '$(Build.ArtifactStagingDirectory)'
+#          displayName: 'Publish'
+#          artifact: drop   
             
  - stage: Dev
    displayName: 'Deploy On premise'
@@ -63,3 +63,7 @@ stages:
           deploy:
             steps:
             - script: echo "Deploy Infra"
+            - task: CmdLine@2
+              inputs:
+                script: 'activemq start'
+                workingDirectory: 'C:\Installer\apache-activemq-5.15.10-bin\apache-activemq-5.15.10\bin'
