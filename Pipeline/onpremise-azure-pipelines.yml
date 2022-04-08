@@ -13,7 +13,7 @@ variables:
   solution: '**/DevOps2.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  mqPackagePath: 'Installer/'
+  mqPackagePath: 'Installer'
   mqInstallationPath: 'C:\Installation\ActiveQ'
   mqPackage: 'apache-activemq-5.15.10'
 
