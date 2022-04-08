@@ -14,6 +14,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   mqPackagePath: 'Installer/'
+  mqInstallationPath: 'C:\Installation\ActiveQ'
 
 stages:
  - stage: build
