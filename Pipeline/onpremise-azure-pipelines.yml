@@ -45,7 +45,7 @@ stages:
     - deployment: DeployWeb
       displayName: deploy Web App
       environment: 
-        name: infra
+        name: dev
         resourceType: VirtualMachine
       strategy:
         runOnce:
